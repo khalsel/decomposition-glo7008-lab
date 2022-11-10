@@ -1,0 +1,6 @@
+default: blue
+api-gateway: red
+customers-service: green
+visits-service: blue
+vets-service: purple
+REST call: black

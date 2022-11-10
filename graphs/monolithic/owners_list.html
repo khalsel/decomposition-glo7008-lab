@@ -1,0 +1,132 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": "external_caller", "label": "external_caller", "shape": "box", "title": "external_caller"}, {"id": "org.springframework.samples.petclinic.model.Owner", "label": "Owner", "shape": "dot", "title": "org.springframework.samples.petclinic.model.Owner"}, {"id": "org.springframework.samples.petclinic.service.ClinicServiceImpl", "label": "ClinicServiceImpl", "shape": "dot", "title": "org.springframework.samples.petclinic.service.ClinicServiceImpl"}, {"id": "org.springframework.samples.petclinic.model.Person", "label": "Person", "shape": "dot", "title": "org.springframework.samples.petclinic.model.Person"}, {"id": "org.springframework.samples.petclinic.model.NamedEntity", "label": "NamedEntity", "shape": "dot", "title": "org.springframework.samples.petclinic.model.NamedEntity"}, {"id": "org.springframework.samples.petclinic.repository.jpa.JpaOwnerRepositoryImpl", "label": "JpaOwnerRepositoryImpl", "shape": "dot", "title": "org.springframework.samples.petclinic.repository.jpa.JpaOwnerRepositoryImpl"}, {"id": "org.springframework.samples.petclinic.model.Visit", "label": "Visit", "shape": "dot", "title": "org.springframework.samples.petclinic.model.Visit"}, {"id": "org.springframework.samples.petclinic.model.BaseEntity", "label": "BaseEntity", "shape": "dot", "title": "org.springframework.samples.petclinic.model.BaseEntity"}, {"id": "org.springframework.samples.petclinic.web.OwnerController", "label": "OwnerController", "shape": "dot", "title": "org.springframework.samples.petclinic.web.OwnerController"}, {"id": "org.springframework.samples.petclinic.util.CallMonitoringAspect", "label": "CallMonitoringAspect", "shape": "dot", "title": "org.springframework.samples.petclinic.util.CallMonitoringAspect"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.web.OwnerController"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.web.OwnerController"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.web.OwnerController"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.service.ClinicServiceImpl"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.service.ClinicServiceImpl", "to": "org.springframework.samples.petclinic.util.CallMonitoringAspect"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.util.CallMonitoringAspect", "to": "org.springframework.samples.petclinic.repository.jpa.JpaOwnerRepositoryImpl"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.repository.jpa.JpaOwnerRepositoryImpl", "to": "org.springframework.samples.petclinic.model.Visit"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.repository.jpa.JpaOwnerRepositoryImpl", "to": "org.springframework.samples.petclinic.model.Visit"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.repository.jpa.JpaOwnerRepositoryImpl", "to": "org.springframework.samples.petclinic.model.Visit"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.repository.jpa.JpaOwnerRepositoryImpl", "to": "org.springframework.samples.petclinic.model.Visit"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.BaseEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.BaseEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.BaseEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.BaseEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.BaseEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.BaseEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.BaseEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.BaseEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.BaseEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.BaseEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Person"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.Owner"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "org.springframework.samples.petclinic.model.Owner", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}, {"arrows": "to", "from": "external_caller", "to": "org.springframework.samples.petclinic.model.NamedEntity"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -50,
+            "springConstant": 0.08,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
