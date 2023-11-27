@@ -1,11 +1,13 @@
 import time
 import json
 import argparse
+import os
 
 
 class Flicker:
-    def __init__(self, file_name=None):
+    def __init__(self, file_name: str = None, verbose: bool = False):
         self.file_name = file_name if file_name is not None else "context_{}.json".format(round(time.time()*1000))
+        self.verbose = verbose
         self.use_cases = list()
 
     def main_loop(self):
@@ -18,27 +20,32 @@ class Flicker:
             label = str(input())
             if label=="Exit":
                 break
-            start_time = str(round(time.time()*1000))
+            start_time = round(time.time()*1000)
             print("Enter STOP to terminate the recording of the current context.")
             while str(input())!= "STOP":
                 print("Enter STOP to terminate the recording of the current context.")
-            stop_time = str(round(time.time() * 1000))
-            self.use_cases.append({"LABEL": label, "START": start_time, "STOP": stop_time})
+            stop_time = round(time.time() * 1000)
+            self.use_cases.append({"START": start_time, "LABEL": label, "STOP": stop_time})
         self.save()
 
     def save(self):
-        with open(self.file_name, "w") as f:
+        os.makedirs(os.path.join(os.path.curdir, "output"), exist_ok=True)
+        with open(os.path.join(os.path.curdir, "output", self.file_name), "w") as f:
             data = [{"offset": 0, "session": self.use_cases, "appserver": ""}]
             json.dump(data, f)
+            if self.verbose:
+                print(data)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Flicker Python port')
     parser.add_argument('-a', type=str,
                         help='json file name (example context.json)')
+    parser.add_argument('-v', action="store_true",
+                        help='print the final results')
     args = parser.parse_args()
     if args.a is not None and not args.a.endswith(".json"):
         parser.error("-a requires a json filename")
-    flicker = Flicker(args.a)
+    flicker = Flicker(args.a, args.v)
     flicker.main_loop()
 
